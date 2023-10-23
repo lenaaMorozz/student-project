@@ -1,8 +1,5 @@
 package com.mer.groups;
 
-
-import com.mer.Student;
-
 public abstract class DataGroupAbstr<K, V> implements DataGroup<K, V> {
     private Node<K, V>[] table;
 

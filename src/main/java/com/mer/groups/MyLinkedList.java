@@ -56,7 +56,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
         @Override
         public boolean hasNext() {
-            return header.next != null;
+            return currentNode != null;
         }
 
         @Override

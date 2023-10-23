@@ -1,7 +1,25 @@
 package com.mer;
 
+
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        CSVReader csvReader = new CSVReader();
+        csvReader.fillDataGroup("/Users/elenamerzlakova/Downloads/students.csv");
+        StudentAnalyzer studentAnalyzer = new StudentAnalyzer();
+        studentAnalyzer.setCsvReader(csvReader);
+
+        System.out.println("Средняя оценка учеников 10 класса: "
+                           + studentAnalyzer.calculateAverageGrade(10));
+        System.out.println("Средняя оценка учеников 11 класса: "
+                           + studentAnalyzer.calculateAverageGrade(11));
+
+        System.out.println("Отличники старше 14 лет: ");
+        studentAnalyzer.findExcellentStudentsAboveAge(14);
+
+        try (Scanner scanner = new Scanner(System.in)) {
+            studentAnalyzer.findStudentsByLastName(scanner.nextLine());
+        }
     }
 }

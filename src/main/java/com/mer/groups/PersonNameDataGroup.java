@@ -1,6 +1,6 @@
 package com.mer.groups;
 
-import com.mer.Student;
+import com.mer.model.Student;
 
 public class PersonNameDataGroup<K extends Character, V extends MyLinkedList<Student>> extends DataGroupAbstr<K, V> {
 

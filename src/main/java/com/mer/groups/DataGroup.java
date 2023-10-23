@@ -1,6 +1,6 @@
 package com.mer.groups;
 
-import com.mer.Student;
+import com.mer.model.Student;
 
 /**
  *Для хранения данных выбор пал на свою упрощенную реализацию HashMap, в качестве ключей служат критерии, в качестве значений -
