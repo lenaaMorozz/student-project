@@ -6,11 +6,8 @@ public class ClassroomDataGroup<K extends Integer, V extends MyLinkedList<Studen
 
 
     public ClassroomDataGroup() {
-        setSize(11);
+        setSize(12); //12 классов
         initialTable();
-//        for (int i = 0; i < 11; i++) {
-//            getNode(i).key = (K) Integer.valueOf(i + 1);
-//        }
     }
 
 
@@ -28,6 +25,7 @@ public class ClassroomDataGroup<K extends Integer, V extends MyLinkedList<Studen
             case 9 -> getTable()[8].value.add(student);
             case 10 -> getTable()[9].value.add(student);
             case 11 -> getTable()[10].value.add(student);
+            case 12 -> getTable()[11].value.add(student);
         }
     }
 
@@ -38,7 +36,7 @@ public class ClassroomDataGroup<K extends Integer, V extends MyLinkedList<Studen
 
     @Override
     protected void initialTable() {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             getTable()[i] = (Node<K, V>) new Node<>(i + 1, new MyLinkedList<Student>());
         }
     }
