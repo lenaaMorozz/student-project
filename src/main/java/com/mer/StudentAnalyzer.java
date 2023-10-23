@@ -4,6 +4,8 @@ import com.mer.groups.MyLinkedList;
 import com.mer.model.Student;
 import lombok.Data;
 
+import java.util.Scanner;
+
 
 @Data
 public class StudentAnalyzer {
@@ -41,12 +43,22 @@ public class StudentAnalyzer {
         }
     }
 
-    public void findStudentsByLastName(String lastName) {
-        if (lastName.toUpperCase().charAt(0) < 1040
-            || lastName.toUpperCase().charAt(0) > 1071) {
-            System.out.println("Фамилия должна быть на русском языке");
-            return;
+    public void findStudentsByLastName() {
+        String lastName;
+        System.out.println("Введите фамилию ученика:");
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                lastName = scanner.nextLine();
+                if (lastName.toUpperCase().charAt(0) > 1040
+                    && lastName.toUpperCase().charAt(0) < 1071) {
+                    break;
+                }
+                else {
+                    System.out.println("Фамилия должна быть на русском языке");
+                }
+            }
         }
+
 
         MyLinkedList<Student> students = csvReader.personNameDataGroup.getStudents(lastName.toUpperCase().charAt(0));
         for (Student student : students) {

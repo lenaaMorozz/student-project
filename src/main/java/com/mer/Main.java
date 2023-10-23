@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         CSVReader csvReader = new CSVReader();
-        csvReader.fillDataGroup("/Users/elenamerzlakova/Downloads/students.csv");
+        System.out.println("Введите путь до файла \"students.csv\":");
+        csvReader.fillDataGroup(new Scanner(System.in).nextLine()); //путь до файла "students.csv"
         StudentAnalyzer studentAnalyzer = new StudentAnalyzer();
         studentAnalyzer.setCsvReader(csvReader);
 
@@ -18,8 +19,7 @@ public class Main {
         System.out.println("Отличники старше 14 лет: ");
         studentAnalyzer.findExcellentStudentsAboveAge(14);
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            studentAnalyzer.findStudentsByLastName(scanner.nextLine());
-        }
+        studentAnalyzer.findStudentsByLastName();
+
     }
 }
