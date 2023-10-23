@@ -49,8 +49,8 @@ public class StudentAnalyzer {
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 lastName = scanner.nextLine();
-                if (lastName.toUpperCase().charAt(0) > 1040
-                    && lastName.toUpperCase().charAt(0) < 1071) {
+                if (lastName.charAt(0) >= 1040
+                    && lastName.charAt(0) <= 1071) {
                     break;
                 }
                 else {
@@ -59,8 +59,7 @@ public class StudentAnalyzer {
             }
         }
 
-
-        MyLinkedList<Student> students = csvReader.personNameDataGroup.getStudents(lastName.toUpperCase().charAt(0));
+        MyLinkedList<Student> students = csvReader.personNameDataGroup.getStudents(lastName.charAt(0));
         for (Student student : students) {
             if (lastName.equals(student.getLastName())) {
                 System.out.println(student);
