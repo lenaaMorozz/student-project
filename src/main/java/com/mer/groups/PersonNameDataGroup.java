@@ -2,7 +2,7 @@ package com.mer.groups;
 
 import com.mer.model.Student;
 
-public class PersonNameDataGroup<K extends Character, V extends MyLinkedList<Student>> extends DataGroupAbstr<K, V> {
+public class PersonNameDataGroup extends DataGroupAbstr<Character, MyLinkedList<Student>>{
 
     public PersonNameDataGroup() {
         setSize(32); //сколько букв в алфавите(без Ё), не пропускаем буквы Ы, Ъ и тд, чтобы коды символов были по порядку
@@ -53,7 +53,7 @@ public class PersonNameDataGroup<K extends Character, V extends MyLinkedList<Stu
     @Override
     protected void initialTable() {
         for (int i = 0; i < 32; i++) {
-            getTable()[i] = (Node<K, V>) new Node<>((char) (i + 1040), new MyLinkedList<Student>());
+            getTable()[i] = new Node<>((char) (i + 1040), new MyLinkedList<>());
         }
     }
 }

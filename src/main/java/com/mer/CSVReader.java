@@ -11,9 +11,9 @@ import java.io.IOException;
 @Getter
 public class CSVReader {
 
-    DataGroup<Integer, MyLinkedList<Student>> classroomDataGroup = new ClassroomDataGroup<>();
-    DataGroup<Integer, MyLinkedList<Student>> personAgeDataGroup = new PersonAgeDataGroup<>();
-    DataGroup<Character, MyLinkedList<Student>> personNameDataGroup = new PersonNameDataGroup<>();
+    DataGroup<Integer, MyLinkedList<Student>> classroomDataGroup = new ClassroomDataGroup();
+    DataGroup<Integer, MyLinkedList<Student>> personAgeDataGroup = new PersonAgeDataGroup();
+    DataGroup<Character, MyLinkedList<Student>> personNameDataGroup = new PersonNameDataGroup();
 
     public void fillDataGroup(String path) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {

@@ -2,7 +2,7 @@ package com.mer.groups;
 
 import com.mer.model.Student;
 
-public class ClassroomDataGroup<K extends Integer, V extends MyLinkedList<Student>> extends DataGroupAbstr<K, V> {
+public class ClassroomDataGroup extends DataGroupAbstr<Integer, MyLinkedList<Student>> {
 
 
     public ClassroomDataGroup() {
@@ -37,7 +37,7 @@ public class ClassroomDataGroup<K extends Integer, V extends MyLinkedList<Studen
     @Override
     protected void initialTable() {
         for (int i = 0; i < 12; i++) {
-            getTable()[i] = (Node<K, V>) new Node<>(i + 1, new MyLinkedList<Student>());
+            getTable()[i] = new Node<>(i + 1, new MyLinkedList<>());
         }
     }
 }

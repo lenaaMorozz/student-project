@@ -2,7 +2,7 @@ package com.mer.groups;
 
 import com.mer.model.Student;
 
-public class PersonAgeDataGroup<K extends Integer, V extends MyLinkedList<Student>> extends DataGroupAbstr<K, V> {
+public class PersonAgeDataGroup extends DataGroupAbstr<Integer, MyLinkedList<Student>> {
 
     public PersonAgeDataGroup() {
         setSize(13); //в нашем случае возвраст от 5 до 17 лет
@@ -38,7 +38,7 @@ public class PersonAgeDataGroup<K extends Integer, V extends MyLinkedList<Studen
     @Override
     protected void initialTable() {
         for (int i = 0; i < 13; i++) {
-            getTable()[i] = (Node<K, V>) new Node<>(i + 5, new MyLinkedList<Student>());
+            getTable()[i] = new Node<>(i + 5, new MyLinkedList<>());
         }
     }
 }
