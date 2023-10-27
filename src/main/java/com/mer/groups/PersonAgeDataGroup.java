@@ -1,8 +1,10 @@
 package com.mer.groups;
 
 import com.mer.model.Student;
+import com.mer.util.MyHashMap;
+import com.mer.util.MyLinkedList;
 
-public class PersonAgeDataGroup extends DataGroup<Integer, MyLinkedList<Student>> {
+public class PersonAgeDataGroup extends MyHashMap<Integer, MyLinkedList<Student>> {
 
     public PersonAgeDataGroup() {
         setSize(13); //в нашем случае возвраст от 5 до 17 лет

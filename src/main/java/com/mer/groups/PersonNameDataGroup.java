@@ -1,8 +1,10 @@
 package com.mer.groups;
 
 import com.mer.model.Student;
+import com.mer.util.MyHashMap;
+import com.mer.util.MyLinkedList;
 
-public class PersonNameDataGroup extends DataGroup<Character, MyLinkedList<Student>> {
+public class PersonNameDataGroup extends MyHashMap<Character, MyLinkedList<Student>> {
 
     public PersonNameDataGroup() {
         setSize(32); //сколько букв в алфавите(без Ё), не пропускаем буквы Ы, Ъ и тд, чтобы коды символов были по порядку

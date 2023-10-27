@@ -1,6 +1,6 @@
 package com.mer;
 
-import com.mer.groups.MyLinkedList;
+import com.mer.util.MyLinkedList;
 import com.mer.model.Student;
 import lombok.Data;
 

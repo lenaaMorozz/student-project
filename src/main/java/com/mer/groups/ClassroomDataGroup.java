@@ -1,8 +1,10 @@
 package com.mer.groups;
 
 import com.mer.model.Student;
+import com.mer.util.MyHashMap;
+import com.mer.util.MyLinkedList;
 
-public class ClassroomDataGroup extends DataGroup<Integer, MyLinkedList<Student>> {
+public class ClassroomDataGroup extends MyHashMap<Integer, MyLinkedList<Student>> {
 
 
     public ClassroomDataGroup() {
