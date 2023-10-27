@@ -2,7 +2,7 @@ package com.mer.groups;
 
 import com.mer.model.Student;
 
-public class PersonAgeDataGroup extends DataGroupAbstr<Integer, MyLinkedList<Student>> {
+public class PersonAgeDataGroup extends DataGroup<Integer, MyLinkedList<Student>> {
 
     public PersonAgeDataGroup() {
         setSize(13); //в нашем случае возвраст от 5 до 17 лет
@@ -11,22 +11,7 @@ public class PersonAgeDataGroup extends DataGroupAbstr<Integer, MyLinkedList<Stu
 
     @Override
     public void addStudent(Student student) {
-        switch (student.getAge()) {
-            case 5 -> getTable()[0].value.add(student);
-            case 6 -> getTable()[1].value.add(student);
-            case 7 -> getTable()[2].value.add(student);
-            case 8 -> getTable()[3].value.add(student);
-            case 9 -> getTable()[4].value.add(student);
-            case 10 -> getTable()[5].value.add(student);
-            case 11 -> getTable()[6].value.add(student);
-            case 12 -> getTable()[7].value.add(student);
-            case 13 -> getTable()[8].value.add(student);
-            case 14 -> getTable()[9].value.add(student);
-            case 15 -> getTable()[10].value.add(student);
-            case 16 -> getTable()[11].value.add(student);
-            case 17 -> getTable()[12].value.add(student);
-
-        }
+        getTable()[student.getAge() - 5].value.add(student);
     }
 
     @Override
