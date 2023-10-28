@@ -3,7 +3,10 @@ package com.mer.command;
 import com.mer.model.Student;
 import com.mer.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class CommandBuilder {
     private final StudentService studentService;
@@ -13,16 +16,39 @@ public class CommandBuilder {
         studentService.saveStudents();
     }
 
-    public Command findExcellentStudentsAboveAge(int age) {
+    public Command help() {
         return () ->
-                studentService.getStudentsByAge(age).stream()
-                        .filter(student -> student.getAge() >= age)
-                        .filter(student -> student.getInformaticsGrade() == 5
-                                           && student.getPhysicsGrade() == 5
-                                           && student.getMathematicsGrade() == 5
-                                           && student.getLiteratureGrade() == 5
-                                           && student.getGeometryGrade() == 5
-                                           && student.getRusGrade() == 5)
+                System.out.println("""
+                        "Команды:"\n
+                        1. calculateAverageGrade <номер класса> - вывод средней оценки всех учеников по
+                        всем предметам данного класса;
+                        2. findExcellentStudents <возраст ученика> - вывод всех отличников старше указанного возраста;
+                        3. findStudents <фамилия> - выводит всех студентов с указанной фамилией.
+                        """);
+    }
+
+    public Command findExcellentStudentsAboveAge(int age) {
+        ArrayList<Student> students = new ArrayList<>();
+        boolean isAgeValid = true;
+
+        while (isAgeValid) {
+            Optional<List<Student>> studentsByAge = studentService.getStudentsByAge(age);
+            if (studentsByAge.isEmpty()) {
+                isAgeValid = false;
+            } else {
+                students.addAll(studentsByAge.get());
+                age++;
+            }
+        }
+        return () ->
+                students.stream()
+                        .filter(student ->
+                                student.getInformaticsGrade() == 5
+                                && student.getPhysicsGrade() == 5
+                                && student.getMathematicsGrade() == 5
+                                && student.getLiteratureGrade() == 5
+                                && student.getGeometryGrade() == 5
+                                && student.getRusGrade() == 5)
                         .forEach(System.out::println);
     }
 
@@ -47,15 +73,5 @@ public class CommandBuilder {
                         .forEach(System.out::println);
     }
 
-    public Command help() {
-        return () ->
-                System.out.println("""
-                        "Команды:"\n
-                        1. calculateAverageGrade <номер класса> - вывод средней оценки всех учеников по
-                        всем предметам данного класса;
-                        2. findExcellentStudents <возраст ученика> - вывод всех отличников старше указанного возраста;
-                        3. findStudents <фамилия> - выводит всех студентов с указанной фамилией.
-                        """);
-    }
 }
 

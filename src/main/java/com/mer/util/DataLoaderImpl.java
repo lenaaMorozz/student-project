@@ -12,10 +12,13 @@ import java.util.Optional;
 @Data
 public class DataLoaderImpl implements DataLoader<Student> {
     private BufferedReader bufferedReader;
+    private boolean firstLineSkipped;
+
 
     public DataLoaderImpl(String path) {
         try {
             bufferedReader = new BufferedReader(new FileReader(path));
+            firstLineSkipped = false;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -25,12 +28,16 @@ public class DataLoaderImpl implements DataLoader<Student> {
     @Override
     public Optional<Student> load() {
         try {
-            if (bufferedReader.readLine() == null) {
-                bufferedReader.close();
-                return Optional.empty();
+            if (!firstLineSkipped) {
+                bufferedReader.readLine();
+                firstLineSkipped = true;
             }
 
             String row = bufferedReader.readLine();
+            if (row == null) {
+                bufferedReader.close();
+                return Optional.empty();
+            }
             String[] data = row.split(",");
 
             Student student = Student.builder()

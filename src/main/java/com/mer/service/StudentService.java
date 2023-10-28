@@ -30,8 +30,8 @@ public class StudentService {
         }
     }
 
-    public List<Student> getStudentsByAge(Integer age) {
-        return dataAge.getList(age);
+    public Optional<List<Student>> getStudentsByAge(Integer age) {
+        return Optional.ofNullable(dataAge.getList(age));
     }
 
     public List<Student> getStudentsByLastName(String lastName) {
