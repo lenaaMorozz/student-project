@@ -1,6 +1,4 @@
-package com.mer;
-
-import com.mer.model.Student;
+package com.mer.groups;
 
 import java.util.HashMap;
 import java.util.LinkedList;

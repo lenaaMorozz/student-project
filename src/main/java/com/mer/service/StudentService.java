@@ -1,6 +1,6 @@
 package com.mer.service;
 
-import com.mer.DataGroup;
+import com.mer.groups.DataGroup;
 import com.mer.model.Student;
 import com.mer.util.DataLoader;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class StudentService {
         this.dataLoader = dataLoader;
     }
 
-    public void saveStudents(String path) {
+    public void saveStudents() {
         Optional<Student> load;
         while ((load = dataLoader.load()).isPresent()) {
             Student student = load.get();

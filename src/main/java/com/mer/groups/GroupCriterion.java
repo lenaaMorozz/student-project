@@ -1,4 +1,4 @@
-package com.mer;
+package com.mer.groups;
 
 @FunctionalInterface
 public interface GroupCriterion<T> {
