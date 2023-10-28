@@ -46,5 +46,16 @@ public class CommandBuilder {
                 studentService.getStudentsByLastName(lastName)
                         .forEach(System.out::println);
     }
+
+    public Command help() {
+        return () ->
+                System.out.println("""
+                        "Команды:"\n
+                        1. calculateAverageGrade <номер класса> - вывод средней оценки всех учеников по
+                        всем предметам данного класса;
+                        2. findExcellentStudents <возраст ученика> - вывод всех отличников старше указанного возраста;
+                        3. findStudents <фамилия> - выводит всех студентов с указанной фамилией.
+                        """);
+    }
 }
 
