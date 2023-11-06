@@ -1,13 +1,8 @@
 package com.mer;
 
-
 import com.mer.command.Command;
 import com.mer.command.CommandBuilder;
-import com.mer.service.StudentService;
-import com.mer.util.DataLoaderImpl;
-
-import java.nio.file.Path;
-
+import com.mer.service.JDBCStorageService;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,18 +12,16 @@ public class Main {
         }
         try {
             CommandBuilder commandBuilder =
-                    new CommandBuilder(new StudentService(new DataLoaderImpl(
-                            Path.of("src/main/resources/students.csv")
-                            .toAbsolutePath().toString())));
+                    new CommandBuilder(new JDBCStorageService());
             Command command = commandBuilder.help();
 
             switch (args[0]) {
-                case "calculateAverageGrade" -> command = commandBuilder
-                        .findAverageGradeInGroup(Integer.parseInt(args[1]));
-                case "findExcellentStudents" -> command = commandBuilder
+                case "findAvgGradeForHighGroup" -> command = commandBuilder
+                        .findAvgGradeForHighGroup();
+                case "findExcellentStudentsAboveAge" -> command = commandBuilder
                         .findExcellentStudentsAboveAge(Integer.parseInt(args[1]));
-                case "findStudents" -> command = commandBuilder
-                        .findStudentsByLastName(args[1]);
+                case "findAvgGradeByLastName" -> command = commandBuilder
+                        .findAvgGradeByLastName(args[1]);
             }
 
             command.execute();
