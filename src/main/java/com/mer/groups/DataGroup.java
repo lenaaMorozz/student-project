@@ -1,39 +1,27 @@
 package com.mer.groups;
 
-import com.mer.model.Student;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-/**
- *Для хранения данных выбор пал на свою упрощенную реализацию HashMap, в качестве ключей служат критерии, в качестве значений -
- * своя реализация LinkedList (односвязный), в котором хранятся студенты. Доступ к группам данных в этом случае будет
- * со сложностью О(1), коллизии исключены, так как мы заранее знаем значения ключей, они уникальны (реализацией не предусмотрено
- * создание двусвязного списка или красно-черного дерево в одном элементе HashMap).
- */
+public class DataGroup<T> {
+    private final GroupCriterion<T> groupCriterion;
+    private final Map<Object, List<T>> dataGroup = new HashMap<>();
 
-public abstract class DataGroup<K, V> {
-    private Node<K, V>[] table;
-
-    protected abstract void initialTable();
-
-    public abstract void addStudent(Student student);
-    public abstract V getStudents(K key);
-
-
-    protected void setSize(int size) {
-        table = new Node[size];
+    public DataGroup(GroupCriterion<T> groupCriterion) {
+        this.groupCriterion = groupCriterion;
     }
 
-
-    protected Node<K,V>[] getTable() {
-        return table;
+    public void add(T element) {
+        Object key = groupCriterion.getKey(element);
+        if (!dataGroup.containsKey(key)) {
+            dataGroup.put(key, new LinkedList<>());
         }
+        dataGroup.get(key).add(element);
+    }
 
-    protected static class Node<K, V> {
-        K key;
-        V value;
-
-        Node(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
+    public List<T> getList(Object key) {
+        return dataGroup.get(key);
     }
 }

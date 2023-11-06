@@ -1,25 +1,40 @@
 package com.mer;
 
 
-import java.util.Scanner;
+import com.mer.command.Command;
+import com.mer.command.CommandBuilder;
+import com.mer.service.StudentService;
+import com.mer.util.DataLoaderImpl;
+
+import java.nio.file.Path;
+
 
 public class Main {
     public static void main(String[] args) {
-        CSVReader csvReader = new CSVReader();
-        System.out.println("Введите путь до файла \"students.csv\":");
-        csvReader.fillDataGroup(new Scanner(System.in).nextLine()); //путь до файла "students.csv"
-        StudentAnalyzer studentAnalyzer = new StudentAnalyzer();
-        studentAnalyzer.setCsvReader(csvReader);
+        if (args.length == 0) {
+            System.out.println("You need to enter parameters\nSee 'help'");
+            return;
+        }
+        try {
+            CommandBuilder commandBuilder =
+                    new CommandBuilder(new StudentService(new DataLoaderImpl(
+                            Path.of("src/main/resources/students.csv")
+                            .toAbsolutePath().toString())));
+            Command command = commandBuilder.help();
 
-        System.out.println("Средняя оценка учеников 10 класса: "
-                           + studentAnalyzer.calculateAverageGrade(10));
-        System.out.println("Средняя оценка учеников 11 класса: "
-                           + studentAnalyzer.calculateAverageGrade(11));
+            switch (args[0]) {
+                case "calculateAverageGrade" -> command = commandBuilder
+                        .findAverageGradeInGroup(Integer.parseInt(args[1]));
+                case "findExcellentStudents" -> command = commandBuilder
+                        .findExcellentStudentsAboveAge(Integer.parseInt(args[1]));
+                case "findStudents" -> command = commandBuilder
+                        .findStudentsByLastName(args[1]);
+            }
 
-        System.out.println("Отличники старше 14 лет: ");
-        studentAnalyzer.findExcellentStudentsAboveAge(14);
+            command.execute();
 
-        studentAnalyzer.findStudentsByLastName();
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
