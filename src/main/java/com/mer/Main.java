@@ -19,8 +19,7 @@ public class Main {
             CommandBuilder commandBuilder =
                     new CommandBuilder(new StudentService(new DataLoaderImpl(
                             Path.of("src/main/resources/students.csv")
-                            .toAbsolutePath().toString()
-                            )));
+                            .toAbsolutePath().toString())));
             Command command = commandBuilder.help();
 
             switch (args[0]) {
