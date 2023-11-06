@@ -22,7 +22,7 @@ public class JDBCStorageService {
 
 
     public static final class TransactionScript {
-        private String url = "jdbc:postgresql://localhost/student";
+        private String url = "jdbc:postgresql://localhost:32769/student";
         private String login = "postgres";
         private String password = "pass";
         private Connection connection;
@@ -48,10 +48,11 @@ public class JDBCStorageService {
                     connection.setAutoCommit(false);
                     PreparedStatement preparedStatement = connection.prepareStatement(
                             """
-                                    select AVG(grade) avg_grade from grade g
-                                    join student st on st.id = g.student_id
-                                    join subject sub on sub.id = g.subject_id
-                                    where st.group = 10 AND st.group = 11
+                                    select AVG(grade) avg_grade
+                                    from student.grade gd
+                                            join student.student st on st.id = gd.student_id
+                                            join student."group" gp on st.group_id = gp.id
+                                    where gp.group_num = 10 OR gp.group_num = 11
                                     """
                     );
                     ResultSet resultSet = preparedStatement.executeQuery();
@@ -75,9 +76,14 @@ public class JDBCStorageService {
                     connection.setAutoCommit(false);
                     PreparedStatement preparedStatement = connection.prepareStatement(
                             """
-                                    select first_name, last_name, age from student st
-                                    join grade g on g.student_id = st.id
-                                    where st.age >= ? AND g.grade = 5;
+                                    select distinct first_name, last_name, age
+                                    from student.student st
+                                             join student.grade g on g.student_id = st.id
+                                    where st.age >= ?
+                                      and not exists (
+                                        select 1 from student.grade g
+                                        where g.student_id = st.id
+                                          and g.grade != 5);
                                     """
                     );
                     preparedStatement.setInt(1, age);
@@ -105,10 +111,12 @@ public class JDBCStorageService {
                     connection.setAutoCommit(false);
                     PreparedStatement preparedStatement = connection.prepareStatement(
                             """
-                                    select first_name, last_name, group_num, AVG(grade) as avg_grade from student st
-                                    join grade gd on g.student_id = st.id
-                                    join group gp on gp.id = st.group_id
+                                    select first_name, last_name, group_num, AVG(grade) as avg_grade 
+                                    from student.student st
+                                                   join student.grade gd on gd.student_id = st.id
+                                                   join student."group" gp on gp.id = st.group_id
                                     where last_name = ?
+                                    group by first_name, last_name, group_num
                                     """
                     );
                     preparedStatement.setString(1, lastName);
