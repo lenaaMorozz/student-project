@@ -1,0 +1,83 @@
+---
+openapi: 3.0.0
+info:
+  title: The API school
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/LENAAMOROZZ59/student/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /groups/{group_id}/students/avg-grades:
+    get:
+      summary: Получение средних оценок учеников в указанном классе
+      parameters:
+      - name: group_id
+        in: path
+        description: "Идентификатор класса, для которого нужно получить средние оценки"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Успешный запрос
+          content:
+            application/json:
+              example:
+              - studentName: Иван Петров
+                aveGrade: 4.5
+              - studentName: Ольга Сидорова
+                aveGrade: 4.0
+        "404":
+          description: Класс с указанным class_id не найден
+  /groups/{group_id}/students/{student_id}/grades:
+    put:
+      summary: "Изменение оценки конкретного ученика по ФИ, классу и конкретному предмету"
+      parameters:
+      - name: group_id
+        in: path
+        description: Идентификатор класса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: student_id
+        in: path
+        description: Идентификатор ученика.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: subject
+        in: query
+        description: "Название предмета, например, \"математика\"."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/student_id_grades_body'
+        required: true
+      responses:
+        "200":
+          description: Оценка ученика успешно обновлена
+        "404":
+          description: Ученик с указанным student_id не найден или класс с указанным class_id не найден
+        "400":
+          description: Неверный формат запроса или неверные данные
+components:
+  schemas:
+    student_id_grades_body:
+      type: object
+      properties:
+        grade:
+          type: number
+          format: double
+          example: 4.5
