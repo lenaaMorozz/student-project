@@ -12,12 +12,13 @@ public class JDBCStorageService {
     public double getAvgGradeForHighGroup() {
         return TransactionScript.getInstance().getAvgGradeForHighGroup();
     }
+
     public List<ExcellentDTO> getExcellentStudentsAboveAge(int age) {
         return TransactionScript.getInstance().getExcellentStudentsAboveAge(age);
     }
 
-    public List<AvgGradeStudentDTO> getAvgGradeByLastName(String lastName) {
-        return TransactionScript.getInstance().getAvgGradeByLastName(lastName);
+    public List<AvgGradeStudentDTO> getAvgGradeBy(int group) {
+        return TransactionScript.getInstance().getAvgGrade(group);
     }
 
 
@@ -103,7 +104,8 @@ public class JDBCStorageService {
             return students;
         }
 
-        public List<AvgGradeStudentDTO> getAvgGradeByLastName(String lastName) {
+
+        public List<AvgGradeStudentDTO> getAvgGrade(int group) {
             List<AvgGradeStudentDTO> students = new ArrayList<>();
 
             try {
@@ -115,16 +117,15 @@ public class JDBCStorageService {
                                     from student.student st
                                                    join student.grade gd on gd.student_id = st.id
                                                    join student."group" gp on gp.id = st.group_id
-                                    where last_name = ?
+                                    where "group".group_num = ?
                                     group by first_name, last_name, group_num
                                     """
                     );
-                    preparedStatement.setString(1, lastName);
+                    preparedStatement.setInt(1, group);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     while (resultSet.next()) {
                         students.add(new AvgGradeStudentDTO(resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
-                                resultSet.getInt("group_num"),
                                 resultSet.getDouble("avg_grade")));
                     }
                     connection.commit();
