@@ -23,7 +23,7 @@ public class JDBCStorageService {
 
 
     public static final class TransactionScript {
-        private String url = "jdbc:postgresql://localhost:32769/student";
+        private String url = "jdbc:postgresql://localhost:32768/student";
         private String login = "postgres";
         private String password = "pass";
         private Connection connection;

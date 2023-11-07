@@ -15,21 +15,23 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-@WebServlet(name = "GetAvgGradesServlet", value = "/groups/{group_id}/students/avg-grades")
+@WebServlet(name = "GetAvgGradesServlet", value = "/groups")
 public class GetAvgGradesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+//        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+//
         JDBCStorageService jdbcStorageService = (JDBCStorageService) session.getAttribute("jdbcStorageService");
         if (isNull(jdbcStorageService)) {
             jdbcStorageService = new JDBCStorageService();
             session.setAttribute("JDBCStorageService", jdbcStorageService);
         }
 
-        int groupId = extractGroupId(req.getPathInfo());
+//        int groupId = extractGroupId(req.getPathInfo());
 
-        List<AvgGradeStudentDTO> dtoList = jdbcStorageService.getAvgGradeBy(groupId);
+        List<AvgGradeStudentDTO> dtoList = jdbcStorageService.getAvgGradeBy(1);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResult = objectMapper.writeValueAsString(dtoList);
