@@ -1,83 +1,73 @@
----
 openapi: 3.0.0
 info:
+  version: "1.0.0"
   title: The API school
-  version: 1.0.0
-servers:
-- url: https://virtserver.swaggerhub.com/LENAAMOROZZ59/student/1.0.0
-  description: SwaggerHub API Auto Mocking
 paths:
-  /groups/{group_id}/students/avg-grades:
+  /groups/avg-grades{group-num}:
     get:
       summary: Получение средних оценок учеников в указанном классе
       parameters:
-      - name: group_id
-        in: path
-        description: "Идентификатор класса, для которого нужно получить средние оценки"
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - in: path
+          name: group-num
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор класса, для которого нужно получить средние оценки
       responses:
-        "200":
+        '200':
           description: Успешный запрос
           content:
             application/json:
               example:
-              - studentName: Иван Петров
-                aveGrade: 4.5
-              - studentName: Ольга Сидорова
-                aveGrade: 4.0
-        "404":
-          description: Класс с указанным class_id не найден
-  /groups/{group_id}/students/{student_id}/grades:
+                - firstName: Иван
+                  lastName: Петров
+                  aveGrade: 4.50
+                - firstName: Ольга
+                  lastName: Сидорова
+                  aveGrade: 4.00
+        '404':
+          description: Студенты не найдены
+
+  /groups/avg-grades/{group-num}/subjects:
     put:
-      summary: "Изменение оценки конкретного ученика по ФИ, классу и конкретному предмету"
+      summary: Изменение оценки конкретного ученика по ФИ, классу и конкретному предмету
       parameters:
-      - name: group_id
-        in: path
-        description: Идентификатор класса.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: student_id
-        in: path
-        description: Идентификатор ученика.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: subject
-        in: query
-        description: "Название предмета, например, \"математика\"."
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
+        - in: path
+          name: group-num
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор класса
+        - in: query
+          name: subject
+          schema:
+            type: string
+          description: Название предмета, например, "математика"
+        - in: query
+          name: first-name
+          schema:
+            type: string
+          description: Имя ученика, например, "Иван"
+        - in: query
+          name: last-name
+          schema:
+            type: string
+          description: Фамилия ученика, например, "Петров"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/student_id_grades_body'
-        required: true
+              type: object
+              properties:
+                grade:
+                  type: number
+                  format: integer
+                  example: 4
       responses:
-        "200":
+        '200':
           description: Оценка ученика успешно обновлена
-        "404":
-          description: Ученик с указанным student_id не найден или класс с указанным class_id не найден
-        "400":
+        '404':
+          description: Ученик с указанными ФИ, класс или предмет не найдены
+        '400':
           description: Неверный формат запроса или неверные данные
-components:
-  schemas:
-    student_id_grades_body:
-      type: object
-      properties:
-        grade:
-          type: number
-          format: double
-          example: 4.5
